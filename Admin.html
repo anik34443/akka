@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2196F3">
+    <meta name="description" content="HBHS Reunion Admin Panel - Manage your reunion event">
+    <title>অ্যাডমিন প্যানেল - HBHS Reunion</title>
+    <link rel="stylesheet" href="Admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div id="messageDiv" class="message" style="display: none;"></div>
+
+    <!-- Login Form -->
+    <div id="loginForm" class="login-container">
+        <div class="login-box">
+            <h2>অ্যাডমিন লগইন</h2>
+            <form>
+                <div class="form-group">
+                    <label for="username">ইউজারনেম</label>
+                    <input type="text" id="username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">পাসওয়ার্ড</label>
+                    <input type="password" id="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary login-btn">লগইন</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-container" style="display: none;">
+        <!-- Mobile Menu Toggle -->
+        <button id="sidebarToggle" class="sidebar-toggle" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2>HBHS Reunion</h2>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li class="active">
+                        <a href="#dashboard" role="button">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>ড্যাশবোর্ড</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#registrations" role="button">
+                            <i class="fas fa-users"></i>
+                            <span>রেজিস্ট্রেশন</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#homepage" role="button">
+                            <i class="fas fa-home"></i>
+                            <span>হোম পেজ</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings" role="button">
+                            <i class="fas fa-cog"></i>
+                            <span>সেটিংস</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="admin-header">
+                <div class="header-content">
+                    <h1 id="sectionTitle">ড্যাশবোর্ড</h1>
+                    <button id="logoutBtn" class="btn btn-danger logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="btn-text">লগআউট</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="section active">
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-info">
+                            <h3>মোট রেজিস্ট্রেশন</h3>
+                            <p id="totalRegistrations">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-tshirt"></i>
+                        <div class="stat-info">
+                            <h3>টি-শার্ট অর্ডার</h3>
+                            <p id="totalTshirts">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-user-plus"></i>
+                        <div class="stat-info">
+                            <h3>মোট অতিথি</h3>
+                            <p id="totalGuests">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div class="stat-info">
+                            <h3>মোট টাকা জমা</h3>
+                            <p id="totalAmount">০ টাকা</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registrations Section -->
+            <div id="registrations" class="section">
+                <div class="section-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="সার্চ করুন..." aria-label="Search registrations">
+                    </div>
+                    <button id="exportBtn" class="btn btn-primary export-btn">
+                        <i class="fas fa-download"></i>
+                        <span class="btn-text">এক্সপোর্ট</span>
+                    </button>
+                </div>
+
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <div class="filter-header">
+                        <h3 class="filter-title">
+                            <i class="fas fa-filter"></i>
+                            ফিল্টার অপশন
+                            <span class="filter-badge" id="activeFilterCount">0</span>
+                        </h3>
+                        <button class="filter-toggle" id="toggleFilters">
+                            <i class="fas fa-chevron-down"></i>
+                            <span>ফিল্টার দেখুন</span>
+                        </button>
+                    </div>
+                    
+                    <div class="filter-content" id="filterContent" style="display: none;">
+                        <div class="filter-group">
+                            <label for="batchFilter">ব্যাচ</label>
+                            <input type="number" id="batchFilter" class="filter-input" placeholder="যেকোনো ব্যাচ" min="1900" max="2099">
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="paymentStatusFilter">পেমেন্ট স্ট্যাটাস</label>
+                            <select id="paymentStatusFilter" class="filter-select">
+                                <option value="">সব</option>
+                                <option value="paid">পেমেন্ট সম্পন্ন</option>
+                                <option value="pending">পেমেন্ট বাকি</option>
+                                <option value="failed">পেমেন্ট ব্যর্থ</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="dateFromFilter">তারিখ হতে</label>
+                            <input type="date" id="dateFromFilter" class="filter-input">
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="dateToFilter">তারিখ পর্যন্ত</label>
+                            <input type="date" id="dateToFilter" class="filter-input">
+                        </div>
+
+                        <div class="filter-group">
+                            <label for="guestFilter">অতিথি সংখ্যা</label>
+                            <select id="guestFilter" class="filter-select">
+                                <option value="">সব</option>
+                                <option value="0">শুধু নিজে</option>
+                                <option value="1">১ জন</option>
+                                <option value="2">২ জন</option>
+                                <option value="3">৩ জন</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-actions">
+                            <button class="btn btn-danger" id="clearFilters">
+                                <i class="fas fa-times"></i>
+                                ফিল্টার মুছুন
+                            </button>
+                            <button class="btn btn-primary" id="applyFilters">
+                                <i class="fas fa-check"></i>
+                                ফিল্টার করুন
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="active-filters" id="activeFilters"></div>
+                </div>
+
+                <div class="table-container">
+                    <table class="registration-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">নাম</th>
+                                <th scope="col">ব্যাচ</th>
+                                <th scope="col">ফোন</th>
+                                <th scope="col">ইমেইল</th>
+                                <th scope="col">টি-শার্ট</th>
+                                <th scope="col">অতিথি</th>
+                                <th scope="col">অতিথি টি-শার্ট</th>
+                                <th scope="col">সময়</th>
+                                <th scope="col">পেমেন্ট স্ট্যাটাস</th>
+                                <th scope="col">পেমেন্ট তথ্য</th>
+                                <th scope="col">অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrationTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Homepage Section -->
+            <div id="homepage" class="section">
+                <div class="homepage-form">
+                    <div class="form-group">
+                        <label for="mainTitleInput">মূল শিরোনাম</label>
+                        <input type="text" id="mainTitleInput" class="setting-input" 
+                               placeholder="আমাদের বিদ্যালয় পুনর্মিলনী ২০২৪">
+                    </div>
+                    <div class="form-group">
+                        <label for="subTitleInput">সাব শিরোনাম</label>
+                        <input type="text" id="subTitleInput" class="setting-input" 
+                               placeholder="ডিসেম্বর ৩১, ২০২৪ | বিদ্যালয় প্রাঙ্গণ">
+                    </div>
+                    <div class="form-group">
+                        <label for="aboutDescription">ইভেন্ট সম্পর্কে</label>
+                        <textarea id="aboutDescription" class="setting-input" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>ইভেন্ট হাইলাইটস</label>
+                        <div id="highlightsContainer">
+                            <!-- Highlights will be added here dynamically -->
+                        </div>
+                        <button type="button" id="addHighlight" class="btn btn-success">
+                            <i class="fas fa-plus"></i>
+                            নতুন হাইলাইট যোগ করুন
+                        </button>
+                    </div>
+
+                    <template id="highlightTemplate">
+                        <div class="highlight-item-edit">
+                            <div class="highlight-header">
+                                <select class="icon-select setting-input" aria-label="আইকন নির্বাচন করুন">
+                                    <option value="fas fa-users">বন্ধু মিলন</option>
+                                    <option value="fas fa-utensils">খাবার</option>
+                                    <option value="fas fa-music">সঙ্গীত</option>
+                                    <option value="fas fa-microphone">অনুষ্ঠান</option>
+                                    <option value="fas fa-camera">ফটোগ্রাফি</option>
+                                    <option value="fas fa-gift">উপহার</option>
+                                    <option value="fas fa-trophy">পুরস্কার</option>
+                                    <option value="fas fa-heart">স্মৃতি</option>
+                                    <option value="fas fa-star">বিশেষ মুহূর্ত</option>
+                                    <option value="fas fa-handshake">সহযোগিতা</option>
+                                    <option value="fas fa-graduation-cap">শিক্ষা</option>
+                                    <option value="fas fa-book">স্মরণিকা</option>
+                                </select>
+                                <button type="button" class="remove-highlight" title="মুছে ফেলুন">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <input type="text" class="highlight-title setting-input" placeholder="হাইলাইটের শিরোনাম">
+                            <textarea class="highlight-description setting-input" placeholder="হাইলাইটের বিস্তারিত বিবরণ" rows="2"></textarea>
+                        </div>
+                    </template>
+                    <div class="form-group">
+                        <label>সামাজিক যোগাযোগ</label>
+                        <div class="social-links-edit">
+                            <div class="form-group">
+                                <label for="facebookLink">ফেসবুক লিংক</label>
+                                <input type="url" id="facebookLink" class="setting-input" 
+                                       placeholder="https://facebook.com/...">
+                            </div>
+                            <div class="form-group">
+                                <label for="twitterLink">টুইটার লিংক</label>
+                                <input type="url" id="twitterLink" class="setting-input" 
+                                       placeholder="https://twitter.com/...">
+                            </div>
+                            <div class="form-group">
+                                <label for="instagramLink">ইনস্টাগ্রাম লিংক</label>
+                                <input type="url" id="instagramLink" class="setting-input" 
+                                       placeholder="https://instagram.com/...">
+                            </div>
+                        </div>
+                    </div>
+                    <button id="saveHomepageBtn" class="btn btn-primary save-btn">
+                        <i class="fas fa-save"></i>
+                        সেভ করুন
+                    </button>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings" class="section">
+                <div class="settings-container">
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label for="siteTitle">ওয়েবসাইট টাইটেল</label>
+                            <input type="text" id="siteTitle" class="setting-input" 
+                                   placeholder="HBHS Reunion">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">যোগাযোগের ইমেইল</label>
+                            <input type="email" id="contactEmail" class="setting-input" 
+                                   placeholder="example@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">যোগাযোগের ফোন</label>
+                            <input type="tel" id="contactPhone" class="setting-input" 
+                                   placeholder="+880 1XXX-XXXXXX">
+                        </div>
+                        <button id="saveSettingsBtn" class="btn btn-primary save-btn">
+                            <i class="fas fa-save"></i>
+                            সেটিংস সেভ করুন
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            sidebarToggle.innerHTML = sidebar.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.sidebar') && 
+                !e.target.closest('.sidebar-toggle') && 
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // Close sidebar on window resize (if in mobile view)
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768 && sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                sidebarToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // Add this to your existing script section or Admin.js
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleFilters = document.getElementById('toggleFilters');
+            const filterContent = document.getElementById('filterContent');
+            const clearFilters = document.getElementById('clearFilters');
+            const applyFilters = document.getElementById('applyFilters');
+            const activeFilters = document.getElementById('activeFilters');
+            const activeFilterCount = document.getElementById('activeFilterCount');
+
+            // Toggle filter section
+            toggleFilters.addEventListener('click', () => {
+                const isVisible = filterContent.style.display !== 'none';
+                filterContent.style.display = isVisible ? 'none' : 'grid';
+                toggleFilters.querySelector('i').className = isVisible 
+                    ? 'fas fa-chevron-down' 
+                    : 'fas fa-chevron-up';
+                toggleFilters.querySelector('span').textContent = isVisible 
+                    ? 'ফিল্টার দেখুন' 
+                    : 'ফিল্টার লুকান';
+            });
+
+            // Clear all filters
+            clearFilters.addEventListener('click', () => {
+                document.querySelectorAll('.filter-select, .filter-input').forEach(input => {
+                    input.value = '';
+                });
+                activeFilters.innerHTML = '';
+                activeFilterCount.textContent = '0';
+                // Trigger table refresh here
+                updateTable();
+            });
+
+            // Apply filters
+            applyFilters.addEventListener('click', () => {
+                const filters = {
+                    batch: document.getElementById('batchFilter').value,
+                    paymentStatus: document.getElementById('paymentStatusFilter').value,
+                    dateFrom: document.getElementById('dateFromFilter').value,
+                    dateTo: document.getElementById('dateToFilter').value,
+                    guests: document.getElementById('guestFilter').value
+                };
+
+                // Update active filters display
+                activeFilters.innerHTML = '';
+                let activeCount = 0;
+
+                Object.entries(filters).forEach(([key, value]) => {
+                    if (value) {
+                        activeCount++;
+                        const tag = document.createElement('div');
+                        tag.className = 'filter-tag';
+                        tag.innerHTML = `
+                            ${getFilterLabel(key)}: ${getFilterValue(key, value)}
+                            <button onclick="removeFilter('${key}')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                        activeFilters.appendChild(tag);
+                    }
+                });
+
+                activeFilterCount.textContent = activeCount;
+
+                // Update table with filters
+                updateTable(filters);
+            });
+
+            // Helper function to get filter labels
+            function getFilterLabel(key) {
+                const labels = {
+                    batch: 'ব্যাচ',
+                    paymentStatus: 'পেমেন্ট স্ট্যাটাস',
+                    dateFrom: 'শুরুর তারিখ',
+                    dateTo: 'শেষ তারিখ',
+                    guests: 'অতিথি'
+                };
+                return labels[key] || key;
+            }
+
+            // Helper function to get formatted filter values
+            function getFilterValue(key, value) {
+                if (key === 'paymentStatus') {
+                    const statusLabels = {
+                        paid: 'পেমেন্ট সম্পন্ন',
+                        pending: 'পেমেন্ট বাকি',
+                        failed: 'পেমেন্ট ব্যর্থ'
+                    };
+                    return statusLabels[value] || value;
+                }
+                return value;
+            }
+
+            // Function to remove individual filter
+            window.removeFilter = function(key) {
+                document.getElementById(`${key}Filter`).value = '';
+                applyFilters.click();
+            };
+
+            // Function to update table based on filters
+            function updateTable(filters = {}) {
+                // Implement your table update logic here
+                // This should filter the data based on the provided filters
+                console.log('Applying filters:', filters);
+            }
+        });
+    </script>
+    <script src="Admin.js"></script>
+</body>
+</html> 

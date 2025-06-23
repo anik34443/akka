@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রেজিস্ট্রেশন - আমাদের বিদ্যালয় পুনর্মিলনী ২০২৪</title>
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="registration-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-home"></i>
+                <span>হোম</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about">ইভেন্ট সম্পর্কে</a>
+                <a href="index.html#highlights">হাইলাইটস</a>
+                <a href="index.html#gallery">গ্যালারি</a>
+                <a href="registration.html" class="active">রেজিস্ট্রেশন</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="registration-container">
+        <div class="registration-header">
+            <h1>রেজিস্ট্রেশন ফরম</h1>
+            <p>পুনর্মিলনী অনুষ্ঠানে অংশগ্রহণের জন্য নিচের ফরমটি পূরণ করুন</p>
+        </div>
+
+        <form id="registrationForm" class="registration-form">
+            <!-- Personal Information -->
+            <div class="form-section">
+                <h2>ব্যক্তিগত তথ্য</h2>
+                
+                <div class="form-group">
+                    <label for="name">নাম <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="batch">ব্যাচ <span class="required">*</span></label>
+                    <input type="number" id="batch" name="batch" min="1960" max="2024" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">মোবাইল নম্বর <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">ইমেইল</label>
+                    <input type="email" id="email" name="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">বর্তমান ঠিকানা</label>
+                    <textarea id="address" name="address" rows="3"></textarea>
+                </div>
+            </div>
+
+            <!-- T-shirt Size -->
+            <div class="form-section">
+                <h2>টি-শার্ট সাইজ</h2>
+                <div class="form-group">
+                    <label for="tshirtSize">আপনার টি-শার্ট সাইজ <span class="required">*</span></label>
+                    <select id="tshirtSize" name="tshirtSize" required>
+                        <option value="">সাইজ নির্বাচন করুন</option>
+                        <option value="S">S (ছোট)</option>
+                        <option value="M">M (মাঝারি)</option>
+                        <option value="L">L (বড়)</option>
+                        <option value="XL">XL (অতি বড়)</option>
+                        <option value="XXL">XXL (দ্বিগুণ বড়)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Guest Information -->
+            <div class="form-section">
+                <h2>অতিথি সংখ্যা এবং টি-শার্ট সাইজ</h2>
+                <div class="form-group">
+                    <label for="guests">অতিরিক্ত অতিথি (সর্বোচ্চ ২ জন)</label>
+                    <select id="guests" name="guests" onchange="updateGuestTshirtFields()">
+                        <option value="0">কোনো অতিথি নেই</option>
+                        <option value="1">১ জন</option>
+                        <option value="2">২ জন</option>
+                    </select>
+                </div>
+
+                <div id="guestTshirtSizes" style="display: none;">
+                    <!-- Guest 1 T-shirt Size -->
+                    <div id="guest1TshirtSection" class="form-group" style="display: none;">
+                        <label for="guest1TshirtSize">প্রথম অতিথির টি-শার্ট সাইজ <span class="required">*</span></label>
+                        <select id="guest1TshirtSize" name="guest1TshirtSize">
+                            <option value="">সাইজ নির্বাচন করুন</option>
+                            <option value="S">S (ছোট)</option>
+                            <option value="M">M (মাঝারি)</option>
+                            <option value="L">L (বড়)</option>
+                            <option value="XL">XL (অতি বড়)</option>
+                            <option value="XXL">XXL (দ্বিগুণ বড়)</option>
+                        </select>
+                    </div>
+
+                    <!-- Guest 2 T-shirt Size -->
+                    <div id="guest2TshirtSection" class="form-group" style="display: none;">
+                        <label for="guest2TshirtSize">দ্বিতীয় অতিথির টি-শার্ট সাইজ <span class="required">*</span></label>
+                        <select id="guest2TshirtSize" name="guest2TshirtSize">
+                            <option value="">সাইজ নির্বাচন করুন</option>
+                            <option value="S">S (ছোট)</option>
+                            <option value="M">M (মাঝারি)</option>
+                            <option value="L">L (বড়)</option>
+                            <option value="XL">XL (অতি বড়)</option>
+                            <option value="XXL">XXL (দ্বিগুণ বড়)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-credit-card"></i>
+                    পেমেন্ট করুন
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>যোগাযোগ</h3>
+                <p><i class="fas fa-phone"></i> +৮৮০ ১৭১২ ৩৫৪৬৯৮</p>
+                <p><i class="fas fa-envelope"></i> reunion@ourschool.edu.bd</p>
+            </div>
+            <div class="social-links">
+                <h3>সামাজিক যোগাযোগ</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© ২০২৪ আমাদের বিদ্যালয় পুনর্মিলনী কমিটি। সর্বস্বত্ব সংরক্ষিত।</p>
+            <a href="Admin.html" class="admin-link">অ্যাডমিন প্যানেল</a>
+        </div>
+    </footer>
+
+    <script>
+        // Function to update guest T-shirt fields visibility
+        function updateGuestTshirtFields() {
+            const guestCount = parseInt(document.getElementById('guests').value);
+            const guestTshirtSizes = document.getElementById('guestTshirtSizes');
+            const guest1Section = document.getElementById('guest1TshirtSection');
+            const guest2Section = document.getElementById('guest2TshirtSection');
+            const guest1Select = document.getElementById('guest1TshirtSize');
+            const guest2Select = document.getElementById('guest2TshirtSize');
+
+            if (guestCount > 0) {
+                guestTshirtSizes.style.display = 'block';
+                guest1Section.style.display = 'block';
+                guest1Select.required = true;
+
+                if (guestCount > 1) {
+                    guest2Section.style.display = 'block';
+                    guest2Select.required = true;
+                } else {
+                    guest2Section.style.display = 'none';
+                    guest2Select.required = false;
+                    guest2Select.value = '';
+                }
+            } else {
+                guestTshirtSizes.style.display = 'none';
+                guest1Section.style.display = 'none';
+                guest2Section.style.display = 'none';
+                guest1Select.required = false;
+                guest2Select.required = false;
+                guest1Select.value = '';
+                guest2Select.value = '';
+            }
+        }
+
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                id: 'registration_' + Date.now(),
+                name: document.getElementById('name').value,
+                batch: document.getElementById('batch').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                tshirtSize: document.getElementById('tshirtSize').value,
+                guestCount: parseInt(document.getElementById('guests').value),
+                guest1TshirtSize: document.getElementById('guest1TshirtSize').value || null,
+                guest2TshirtSize: document.getElementById('guest2TshirtSize').value || null,
+                timestamp: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            // Save to localStorage
+            localStorage.setItem(formData.id, JSON.stringify(formData));
+
+            // Redirect to payment page
+            window.location.href = 'payment.html?id=' + formData.id;
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পেমেন্ট - আমাদের বিদ্যালয় পুনর্মিলনী ২০২৪</title>
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="payment-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <i class="fas fa-home"></i>
+                <span>হোম</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#about">ইভেন্ট সম্পর্কে</a>
+                <a href="index.html#highlights">হাইলাইটস</a>
+                <a href="index.html#gallery">গ্যালারি</a>
+                <a href="registration.html">রেজিস্ট্রেশন</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1>পেমেন্ট</h1>
+            <p>আপনার রেজিস্ট্রেশন সম্পন্ন করতে নিচের পেমেন্ট ফরমটি পূরণ করুন</p>
+        </div>
+
+        <div class="payment-details">
+            <h2>রেজিস্ট্রেশন তথ্য</h2>
+            <div id="registrationInfo"></div>
+            
+            <h2>মোট টাকা</h2>
+            <div id="totalAmount" class="amount"></div>
+        </div>
+
+        <form id="paymentForm" class="payment-form">
+            <div class="form-section">
+                <h2>পেমেন্ট মেথড</h2>
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <input type="radio" id="bkash" name="paymentMethod" value="bkash" checked>
+                        <label for="bkash">
+                            <i class="fas fa-mobile-alt"></i>
+                            বিকাশ
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" id="nagad" name="paymentMethod" value="nagad">
+                        <label for="nagad">
+                            <i class="fas fa-mobile-alt"></i>
+                            নগদ
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <input type="radio" id="rocket" name="paymentMethod" value="rocket">
+                        <label for="rocket">
+                            <i class="fas fa-mobile-alt"></i>
+                            রকেট
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionId">ট্রানজেকশন আইডি <span class="required">*</span></label>
+                    <input type="text" id="transactionId" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentPhone">পেমেন্ট করা নম্বর <span class="required">*</span></label>
+                    <input type="tel" id="paymentPhone" required>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-check"></i>
+                    পেমেন্ট নিশ্চিত করুন
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="contact-info">
+                <h3>যোগাযোগ</h3>
+                <p><i class="fas fa-phone"></i> +৮৮০ ১৭১২ ৩৫৪৬৯৮</p>
+                <p><i class="fas fa-envelope"></i> reunion@ourschool.edu.bd</p>
+            </div>
+            <div class="social-links">
+                <h3>সামাজিক যোগাযোগ</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© ২০২৪ আমাদের বিদ্যালয় পুনর্মিলনী কমিটি। সর্বস্বত্ব সংরক্ষিত।</p>
+            <a href="Admin.html" class="admin-link">অ্যাডমিন প্যানেল</a>
+        </div>
+    </footer>
+
+    <script>
+        // Constants
+        const BASE_PRICE = 1000;
+        const GUEST_PRICE = 500;
+
+        // Get registration ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const registrationId = urlParams.get('id');
+
+        // Load registration data
+        let registrationData = null;
+        if (registrationId) {
+            const data = localStorage.getItem(registrationId);
+            if (data) {
+                registrationData = JSON.parse(data);
+                displayRegistrationInfo(registrationData);
+            } else {
+                window.location.href = 'registration.html';
+            }
+        } else {
+            window.location.href = 'registration.html';
+        }
+
+        // Display registration information
+        function displayRegistrationInfo(data) {
+            const guestCount = parseInt(data.guestCount) || 0;
+            const totalAmount = BASE_PRICE + (guestCount * GUEST_PRICE);
+
+            document.getElementById('registrationInfo').innerHTML = `
+                <div class="info-item">
+                    <span>নাম:</span>
+                    <span>${data.name}</span>
+                </div>
+                <div class="info-item">
+                    <span>ব্যাচ:</span>
+                    <span>${data.batch}</span>
+                </div>
+                <div class="info-item">
+                    <span>ফোন:</span>
+                    <span>${data.phone}</span>
+                </div>
+                <div class="info-item">
+                    <span>টি-শার্ট সাইজ:</span>
+                    <span>${data.tshirtSize}</span>
+                </div>
+                <div class="info-item">
+                    <span>অতিথি সংখ্যা:</span>
+                    <span>${guestCount} জন</span>
+                </div>
+            `;
+
+            document.getElementById('totalAmount').innerHTML = `
+                <div class="amount-item">
+                    <span>নিজের রেজিস্ট্রেশন:</span>
+                    <span>৳${BASE_PRICE}</span>
+                </div>
+                ${guestCount > 0 ? `
+                <div class="amount-item">
+                    <span>অতিথি (${guestCount} জন):</span>
+                    <span>৳${guestCount * GUEST_PRICE}</span>
+                </div>` : ''}
+                <div class="amount-item total">
+                    <span>মোট:</span>
+                    <span>৳${totalAmount}</span>
+                </div>
+            `;
+        }
+
+        // Handle payment form submission
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!registrationData) return;
+
+            // Update registration data with payment information
+            registrationData.payment = {
+                method: document.querySelector('input[name="paymentMethod"]:checked').value,
+                transactionId: document.getElementById('transactionId').value,
+                phone: document.getElementById('paymentPhone').value,
+                amount: BASE_PRICE + (parseInt(registrationData.guestCount) || 0) * GUEST_PRICE,
+                timestamp: new Date().toISOString()
+            };
+            registrationData.status = 'paid';
+
+            // Save updated registration data
+            localStorage.setItem(registrationId, JSON.stringify(registrationData));
+
+            // Redirect to thank you page
+            window.location.href = 'thankyou.html';
+        });
+    </script>
+</body>
+</html> 
